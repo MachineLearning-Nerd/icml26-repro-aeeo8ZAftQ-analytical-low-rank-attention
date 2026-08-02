@@ -20,7 +20,7 @@
     "6": 0
   },
   "last_checkpoint": "2026-08-02T08:30:41Z",
-  "last_known_git_commit": "d8bccdfcb7b3e356329c0b1d2a8cfcd65520b722",
+  "last_known_git_commit": "606c6a21a46ddffdd90b21c6b398378266d2f3d6",
   "publication_allowed": false,
   "compute_policy": "local CPU/local GPU only; no HF cpu-upgrade, Jobs, paid or remote compute",
   "selection_rationale": "Six live claims, public arXiv source, and a source-audited local matrix-algebra path for Theorem 2/3/Lemma 4. Large LLaMA benchmark claims need separate feasibility evidence.",

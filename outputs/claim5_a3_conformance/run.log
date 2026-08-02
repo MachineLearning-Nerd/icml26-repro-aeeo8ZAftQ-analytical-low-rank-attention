@@ -1,0 +1,2 @@
+src/claim5_a3_conformance.py --out outputs/claim5_a3_conformance --seeds 11 23 47 89 131
+exit_code=0

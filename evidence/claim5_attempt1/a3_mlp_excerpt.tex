@@ -1,0 +1,78 @@
+\subsection{\texorpdfstring{\mymethodmlp}{A3-MLP}}
+\label{sec:method:ffn}
+
+The non-linear activation function in \mlp{} component prohibits us from directly applying SVD.
+Instead, we first derive an objective for minimizing the MLP output error,
+and uses CUR decomposition~\citep{CUR-matrix-decompositions-for-improved-data-analysis} to find the low-rank form of MLP weights.
+
+% \vspace{-0.5em}
+\begin{problem}[Minimization of \mlp{} output error]\label{problem:mlp}
+Given a pretrained down
+% \gc{what does down mean here?} 
+projection layer $\mYffn = \mXdown \Wdown$ in MLP
+and its approximated low-rank form $\mYffnapprox = \mXdownapprox \Wdownapprox = \mXdown \mU \Wdown$, 
+minimizing the MLP output error is to minimize the following loss: 
+% \begin{equation}
+%     \mathrm{arg min}_{\mU=\mathrm{diag}(u_1, u_2, \dots, u_\dinter)} \|\mXdown \mU \Wdown - \mXdown\Wdown\|_F^2
+%     \quad \text{s.t.} \quad \text{rank}(\mU)=r\;,
+% \end{equation}
+\begin{equation}
+\begin{aligned}
+    \underset{\mU=\operatorname{diag}(u_1,\dots,u_\dinter)}{\mathrm{arg\,min}}
+    \;& \|\mXdown \mU \Wdown - \mXdown \Wdown\|_F^2 \\
+    \text{s.t.} \quad
+    & \operatorname{rank}(\mU) = r \; .
+\end{aligned}
+\end{equation}
+
+where $\mXdown \in \sR^{\ldown \times \dinter}$ is the matrix of intermediate activation vectors,
+and $\mU \in \sR^{\dinter \times \dinter}$ is a diagonal matrix determining which $r$ columns of $\Wdown$ to keep.
+
+% where $\vxdown \in \sR^{\dinter}$ is the intermediate activation vector from the input space $\sX_{\text{d}} \subseteq \sR^{\dinter}$
+% and $\mU \in \sR^{\dinter \times \dinter}$ is a diagonal matrix determining which $r$ columns of $\Wdown$ to keep.
+\end{problem}
+
+%We force $\mU$ to be a diagonal matrix,
+%because reducing the intermediate size $\dinter$ to $r$ means
+%reducing the rank of $\Wdown$ to $r$, and $\Wup$, $\Wgate$, and .
+%such that the zero elements on the diagonal determine which columns of $\vxdown$ (the rows of $\Wdown$) to remove
+%Note that $\mU$ also keep $r$ columns of $\vxdown$, $\Wgate$ and $\Wup$ accordingly.
+
+%\vspace{0.5em}
+\begin{lemma}[Equivalent form of Problem \ref{problem:mlp}]
+    \label{lemma:a3:mlp:obj:derived}
+    The objective in Problem~\ref{problem:mlp} is equivalent to the following error on the calibration dataset:
+    % \begin{equation}
+    %     \mathrm{argmin}_{\mU=\mathrm{diag}(u_1, u_2, \dots, u_\dinter)} \|\mR_{\sX_{\text{d}}\sX_{\text{d}}}^{\frac{1}{2}} \mU \Wdown - \mR_{\sX_{\text{d}}\sX_{\text{d}}}^{\frac{1}{2}} \Wdown\|_F^2 
+    %     \quad \text{s.t.} \quad \text{rank}(\mU)=r\;,
+    % \end{equation}
+    \begin{equation}
+    \begin{aligned}
+    \underset{\mU = \operatorname{diag}(u_1, u_2, \dots, u_{\dinter})}{\arg\min}
+    \quad
+    & \left\|
+    \mR_{\sX_{\text{d}}\sX_{\text{d}}}^{\frac{1}{2}}
+    \mU \Wdown
+    -
+    \mR_{\sX_{\text{d}}\sX_{\text{d}}}^{\frac{1}{2}}
+    \Wdown
+    \right\|_F^2 \\
+    \text{s.t.} \quad
+    & \operatorname{rank}(\mU) = r \; .
+    \end{aligned}
+    \end{equation}
+    
+
+    % \begin{equation}
+    % \begin{aligned}
+    %     \underset{\mU=\mathrm{diag}(u_1,\dots,u_\dinter)}{\mathrm{arg\,min}}
+    %     \;& \|\mXdown \mU \Wdown - \mXdown \Wdown\|_F^2 \\
+    %     \text{s.t.}\;& \mathrm{rank}(\mU) = r \;.
+    % \end{aligned}
+    % \end{equation}
+    where $\mR_{\sX_{\text{d}}\sX_{\text{d}}} := \frac{1}{\ldown}\mXdown^T \mXdown$ is the autocorrelation matrix of the calibration set $\mXdown$.
+\end{lemma}
+The derivation of Lemma~\ref{lemma:a3:mlp:obj:derived} is in~\Cref{sec:appendix:derivation:mlp:objective}. This CUR approximation is a well-studied NP-hard problem, and various CUR methods have been proposed~\citep{optimal-cur-matrix-decompositions, Fast-Monte-Carlo-Algorithms-for-Matrices-I:-Approximating-Matrix-Multiplication}.
+We thus pick a simple but effective solution from~\cite{Fast-Monte-Carlo-Algorithms-for-Matrices-I:-Approximating-Matrix-Multiplication} and name this approach \mymethodmlp{}.
+
+Following~\cite{Fast-Monte-Carlo-Algorithms-for-Matrices-I:-Approximating-Matrix-Multiplication}, we build $\mU$ by

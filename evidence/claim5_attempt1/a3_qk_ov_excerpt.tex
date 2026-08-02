@@ -1,0 +1,76 @@
+    are the autocorrelation matrices of the query and key/value calibration activations respectively, and $\Rxqxq^{\frac{1}{2}}$, $\Rxkvxkv^{\frac{1}{2}}$ denote the corresponding unique symmetric matrix square roots.
+
+    % \jf{should I use $\frac{1}{N} \mXq^T \mXq$ instead of $\mXq^T \mXq$ here? For proof it seems like this gives rise to $\mXq^T \mXq$ only but $\frac{1}{N} \mXq^T \mXq$ is also a valid answer to the min problem}
+    
+\end{lemma}
+
+The complete derivation of Lemma~\ref{lemma:qk:obj} is given 
+in~\Cref{sec:appendix:derivation:qk:objective}.
+%\vspace{0.5em}
+
+\begin{theorem}[\mymethodqk{} for MHA-NoPE]\label{theorem:a3:mha:qk:solution}
+    The optimal solution to Problem \ref{problem:qk} is
+    %
+    % \begin{equation}
+    %     \label{eq:a3:mha:qk:solution}
+    %     \Wqkiapprox = \left(\Rxqxq^\frac{1}{2}\right)^{-1}
+    %     \SVDr\left(\Rxqxq^{\frac{1}{2}} \Wqki \Rxkvxkv^{\frac{1}{2}}\right)
+    %     \left(\Rxkvxkv^{\frac{1}{2}}\right)^{-1} \;,
+    % \end{equation}
+    \begin{equation}
+    \label{eq:a3:mha:qk:solution}
+    \resizebox{\columnwidth}{!}{$
+    \Wqkiapprox = 
+    \left(\Rxqxq^{1/2}\right)^{-1} 
+    \SVDr\Big(\Rxqxq^{1/2} \Wqki \Rxkvxkv^{1/2}\Big)
+    \left(\Rxkvxkv^{1/2}\right)^{-1} \;.
+    $}
+    \end{equation}
+
+
+    where $\SVDr(\cdot)$ denotes the truncated SVD operator.
+    %
+    % where $\mU_{:,:r}$, $\mSigma_{:r,:r}$, and $\mV^T_{:r,:}$ forms the truncated SVD of the sacled error term in~\Cref{eq:a3:mha:qk:obj:derived}:
+    %\begin{equation}
+    %    \mU \mSigma \mV^T = \text{SVD}(\Rxqxq^{\frac{1}{2}} (\Wqki - \Wqkiapprox) \Rxkvxkv^{\frac{1}{2}})
+    %\end{equation}
+\end{theorem}
+The proof of~\Cref{theorem:a3:mha:qk:solution} is given in Appendix~\ref{sec:appendix:derivation:qk:solution}.
+%
+In practice, we apply~\Cref{theorem:a3:mha:qk:solution} to all pairs of \qk{} heads ($i=1, \ldots, \hq$),
+and assign
+\begin{equation*}
+    \label{eq:a3:qk:qk-assignment}
+    \resizebox{\columnwidth}{!}{$
+    \Wqiapprox:= \left(\Rxqxq^\frac{1}{2}\right)^{-1}\mU_{:,:k},\; \WkiTapprox:= \mSigma_{:k,:k} \mV^T_{:k,:}\left(\Rxkvxkv^{\frac{1}{2}}\right)^{-1} \;,
+    $}
+\end{equation*}
+where $\mU_{:,:k}$, $\mSigma_{:k,:k}$, and $\mV^T_{:k,:}$ are the truncated SVD components given by~\Cref{theorem:a3:mha:qk:solution}.
+This gives approximated query and key weights with a new smaller head dimension $r < \dqk$.
+Note that \Cref{theorem:a3:mha:qk:solution} is performed on each head separately,
+but the low-rank head weights can still be concatenated together
+and \textit{implemented as a single linear layer at inference time.}
+
+\subsection{\texorpdfstring{\mymethodov}{A3-OV}}
+\label{sec:method:ov}
+Expand the summation over all \ov{} head outputs in~\Cref{eq:mha:vo}.
+The matrix form of the attention layer output $\mO \in \sR^{\lqq \times \dm}$ can be expressed as
+\begin{equation}
+    \label{eq:mha:vo:sum}
+    \mO = 
+    \sum_{i=1}^{\hq} \mO_i =
+    \sum_{i=1}^{\hq} \mA'_i \mXkv \Wvi \Wo_i =
+    \sum_{i=1}^{\hq}  \mathbf{\mP}_i \Wvoi \; ,
+\end{equation}
+where 
+%\jf{\st{$\vp_i:= a'_i \vxkv \in \sR^{\dm}$} This is correct. However, if we use this formulation, we would have another outer sum loop which loops over the index of $\vxkv$ to form the overall attention output $\vo$. Otherwise it is probably better to write it this way: $a'_i$ be a row of attention score, hence should be a vector and this row of attention score is dot-prodot with the all the $\vxkv$ vectors, hence: $\vp_i:= \va'_i \mX_{kv} \in \sR^{\dm}$} 
+%\cz{the KV matrix doesn't fit into current proof}
+$\mP_i:= \mA'_i \mXkv \in \sR^{\lqq \times \dm}$
+is the product between post-softmax attention score and
+the input matrix of key/value layer,
+and $\Wvoi := \Wvi \Wo_i \in \sR^{\dm \times \dm}$ denotes the fused weight matrix of the $i$-th head.
+Now each term $\mO_i$ takes the form of a linear layer $\mO_i=\mP_i \Wvoi$.
+If $\widetilde{\mO}_i=\mP_i \Wvoiapprox$ denotes the approximated $\mO_i$,
+the upper bound of the attention output error can be derived as follows:
+\begin{equation}
+    \label{eq:a3:vo:error-bound}

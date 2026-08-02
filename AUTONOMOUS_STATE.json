@@ -1,14 +1,15 @@
 {
   "schema_version": 1,
   "openreview_id": "aeeo8ZAftQ",
-  "phase": "claim_1_attempt_1_source_protocol_audit_complete",
-  "next_action": "launch_claim_5_direct_local_A3_QK_conformance_before_any_toy_or_publication",
+  "phase": "claim_5_attempt_1_direct_local_a3_conformance_toy",
+  "next_action": "independent_review_claim_5_toy_before_any_publication",
   "active_run_ids": [],
   "completed_milestones": [
     "live_duplicate_gate",
     "live_contract_saved",
     "source_archive_and_pdf_pinned",
-    "claim_1_attempt_1_source_protocol_audit"
+    "claim_1_attempt_1_source_protocol_audit",
+    "claim_5_attempt_1_direct_local_a3_qk_ov_mlp_conformance"
   ],
   "failed_attempts": [],
   "claim_attempt_counts": {
@@ -16,13 +17,18 @@
     "2": 0,
     "3": 0,
     "4": 0,
-    "5": 0,
+    "5": 1,
     "6": 0
   },
-  "last_checkpoint": "2026-08-02T08:30:41Z",
-  "last_known_git_commit": "606c6a21a46ddffdd90b21c6b398378266d2f3d6",
+  "last_checkpoint": "2026-08-02T10:30:00Z",
+  "last_known_git_commit": "PENDING_COMMIT",
   "publication_allowed": false,
   "compute_policy": "local CPU/local GPU only; no HF cpu-upgrade, Jobs, paid or remote compute",
   "selection_rationale": "Six live claims, public arXiv source, and a source-audited local matrix-algebra path for Theorem 2/3/Lemma 4. Large LLaMA benchmark claims need separate feasibility evidence.",
-  "github_repository": "https://github.com/MachineLearning-Nerd/icml26-repro-aeeo8ZAftQ-analytical-low-rank-attention"
+  "github_repository": "https://github.com/MachineLearning-Nerd/icml26-repro-aeeo8ZAftQ-analytical-low-rank-attention",
+  "claim_5_outcome": {
+    "verdict": "toy",
+    "scope": "five-seed d=12/r=4 clean-room finite A3-QK/A3-OV activation-aware SVD and A3-MLP channel-selection conformance; not LLaMA benchmark or universal theorem verification",
+    "evidence": "outputs/claim5_a3_conformance/summary.json"
+  }
 }

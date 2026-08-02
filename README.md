@@ -8,7 +8,7 @@ This workspace pins the live six-claim contract and arXiv `2505.12942` source. I
 
 ## Current milestone
 
-Claim 1 source/protocol audit is complete. The paper-scale LLaMA-3.1-70B WikiText-2 result cannot be reproduced locally without the released model/evaluation protocol; no empirical claim outcome is asserted. The next local route is a direct finite A3-QK algebra/conformance implementation for Claim 5, followed by a separately labelled toy if appropriate.
+Claim 1 source/protocol audit is complete. The paper-scale LLaMA-3.1-70B WikiText-2 result cannot be reproduced locally without the released model/evaluation protocol; no empirical claim outcome is asserted. Claim 5 now has a clearly labelled five-seed local finite A3-QK/A3-OV/A3-MLP conformance toy. See `logbook/claim-5.md`; it is not a paper-scale LLaMA benchmark reproduction or theorem verification.
 
 ## Verify source pins
 

@@ -10,9 +10,10 @@
 - Official code/data/model pins: no source-faithful author execution pin established at initialization
 - Compute policy: local CPU/local GPU only; no HF cpu-upgrade, Jobs, paid/remote compute
 - GitHub repository: https://github.com/MachineLearning-Nerd/icml26-repro-aeeo8ZAftQ-analytical-low-rank-attention
-- Current phase: `claim_1_attempt_1_source_protocol_audit_complete`
+- Current phase: `claim_5_attempt_1_direct_local_a3_conformance_toy`
 - Claim 1: inconclusive — paper-scale LLaMA-3.1-70B/WikiText-2 protocol has no released source-faithful execution artifact in the pinned archive; no proxy run asserted.
-- Claims 2–6: not started
+- Claims 2–4, 6: not started
+- Claim 5: toy — five-seed local clean-room A3-QK/A3-OV activation-aware SVD and A3-MLP channel-selection fixture; not LLaMA/WikiText or universal theorem verification.
 - Publication status: not eligible
 
 ## Selection rationale

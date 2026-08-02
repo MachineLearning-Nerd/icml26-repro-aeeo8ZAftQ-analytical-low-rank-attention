@@ -1,0 +1,26 @@
+[
+  {
+    "text": "A3's low-rank approximated LLaMA 3.1-70B achieves a perplexity of 4.69 on WikiText-2 at 10% compression, versus SVD-LLM's 7.87, a 3.18-point improvement (Table 1).",
+    "status": "unverified"
+  },
+  {
+    "text": "On LLaMA-2-7B at 10% compression on WikiText-2, A3 reaches a perplexity of 5.96 versus SVD-LLM's 8.78 (Table 1).",
+    "status": "unverified"
+  },
+  {
+    "text": "On LLaMA-3.1-8B at 10% compression on WikiText-2, A3 achieves a perplexity of 7.93 versus SVD-LLM's 19.12 (Table 1).",
+    "status": "unverified"
+  },
+  {
+    "text": "Table 2 shows A3 maintains higher average accuracy than SVD-LLM across compression levels on five downstream tasks: ARC-Challenge, BoolQ, Winogrande, GSM8K, and MMLU.",
+    "status": "unverified"
+  },
+  {
+    "text": "Theorem 2 (A3-QK) gives a closed-form solution via activation-aware SVD, Theorem 3 (A3-OV) gives per-head optimization using autocorrelation matrices, and Lemma 4 (A3-MLP) uses CUR decomposition for the nonlinear MLP components.",
+    "status": "unverified"
+  },
+  {
+    "text": "Figure 3 shows A3 achieves throughput speedup on an A100 40GB GPU for LLaMA-2-13B even at low compression ratios, whereas SVD-LLM only accelerates at higher compression ratios.",
+    "status": "unverified"
+  }
+]

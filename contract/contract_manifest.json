@@ -1,0 +1,19 @@
+{
+  "retrieved_at_utc": "2026-08-02T08:30:41Z",
+  "source_snapshot": "outputs/live/20260802T083041Z",
+  "openreview_id": "aeeo8ZAftQ",
+  "title": "A3: an Analytical Low-Rank Approximation Framework for Attention",
+  "claim_count": 6,
+  "maximum_points": 12,
+  "source_urls": {
+    "index": "https://huggingface.co/datasets/ICML-2026-agent-repro/challenge/resolve/main/index.json",
+    "claims": "https://icml-2026-agent-repro-challenge.static.hf.space/claims.json",
+    "claims_anchored": "https://icml-2026-agent-repro-challenge.static.hf.space/claims_anchored.json",
+    "challenge_readme": "https://huggingface.co/datasets/ICML-2026-agent-repro/challenge/resolve/main/README.md"
+  },
+  "sha256": {
+    "metadata.json": "a64d3e225e6585382f9b2ca7d654ca5d0417dab66eb968286f944f3e62b59e53",
+    "live_claims.json": "af92b8efdf9e70c335547b1bb704b1a344dbce4de2a6929b33fa0429a25b19ae",
+    "challenge_readme.md": "027f66e6da758c4a0d75fff6c9298e5322dde64d21a97d33e4367e42c3a421c5"
+  }
+}
